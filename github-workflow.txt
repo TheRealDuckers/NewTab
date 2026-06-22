@@ -1,0 +1,70 @@
+COPY THIS UPDATED FILE CONTENT TO GITHUB
+==========================================
+
+REPLACE your current .github/workflows/deploy-gh-pages.yml file with this fixed version:
+
+FILE PATH: .github/workflows/deploy-gh-pages.yml
+
+INSTRUCTIONS:
+1. Go to your GitHub repository
+2. Navigate to .github/workflows/deploy-gh-pages.yml
+3. Click the pencil icon (Edit this file)
+4. Replace ALL content with the code below
+5. Click "Commit changes"
+
+FILE CONTENT (copy everything below this line):
+---------------------------------------------------
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Add permissions for GITHUB_TOKEN
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+
+---------------------------------------------------
+
+WHAT WAS FIXED:
+✅ Added permissions section (fixes the git error 128)
+✅ Updated to Node.js 24 (fixes the deprecation warning)
+✅ Updated pnpm to version 9 and action to v4
+
+After updating, push a new commit or manually trigger the workflow from the Actions tab.
